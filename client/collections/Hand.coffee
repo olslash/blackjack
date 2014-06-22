@@ -8,24 +8,18 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     @add(@deck.pop()).last()
-    # if score > 21 ???
-    # tell appmodel which continues the game
     if @scores()[0] > 21
       @trigger('over', @)
 
   stand: ->
     @trigger('stand', @)
 
-  play: ->
-    console.log('dealer play')
-    #Hand plays itself
-    #
-  # playDealer: ->
-  #   if @scores[0] < 17
-  #     @hit()
-  #     @playDealer()
-  #   else
-  #     @stand()
+  playDealer: ->
+    if @scores()[0] < 17
+      @hit()
+      @playDealer()
+    else
+      @stand()
 
 
   scores: ->

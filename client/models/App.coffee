@@ -14,12 +14,10 @@ class window.App extends Backbone.Model
     playerHand.on 'over', =>
       dealerHand.at(0).flip()
       dealerHand.stand()
-    #   Dealer Stand
 
     playerHand.on 'stand', =>
       dealerHand.at(0).flip()
-      @playDealer()
-
+      dealerHand.playDealer()
 
     dealerHand.on 'stand', =>
       dealerScore = dealerHand.scores()[0]
@@ -28,9 +26,8 @@ class window.App extends Backbone.Model
 
       if playerScore > 21
         @trigger('winner', 'Dealer Wins!')
-
       else if dealerScore > 21
-        @trigger('winner', 'Player Wins First!')
+        @trigger('winner', 'Player Wins!')
       else
         if playerScore > dealerScore
           @trigger('winner', 'Player Wins!')
@@ -40,23 +37,12 @@ class window.App extends Backbone.Model
           @trigger('winner', 'Draw... You Lose and Suck!!')
 
 
-  playDealer: ->
-    dealerHand = @get 'dealerHand'
-    dealerScores = dealerHand.scores()
-    if dealerScores[0] < 17
-      dealerHand.hit()
-      @playDealer()
-    else
-      dealerHand.stand()
-
   redeal: ->
     dealerHand = @get 'dealerHand'
     playerHand = @get 'playerHand'
-    console.log 'newdeal'
-    @get 'deck'.over(playerHand)
-    @get 'deck'.over(dealerHand)
-    # deck.over(playerHand)
-    # deck.over(dealerHand)
-
+    console.log @get 'deck'
+    (@get 'deck').over(dealerHand)
+    (@get 'deck').over(playerHand)
+    @trigger('redeal')
 
 

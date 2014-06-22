@@ -5,6 +5,7 @@ class window.AppView extends Backbone.View
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <div class="winner"></div>
   '
 
   events:
@@ -15,18 +16,17 @@ class window.AppView extends Backbone.View
 
   initialize: ->
     @render()
-
     @.model.on 'winner', (a)=>
-      # $('.hit-button').prop('disabled', true);
-      # $('.stand-button').prop('disabled', true);
-      # @$el.first-child().detach()
-      # console.log @$el.children().find('button')
       @$el.find('.newgame').show()
       @$el.find('.hit-button').hide()
       @$el.find('.stand-button').hide()
-      $('body').append a
-      #@render()
+      $('.winner').text(a)
 
+    @model.on 'redeal', =>
+      @$el.find('.newgame').hide()
+      @$el.find('.hit-button').show()
+      @$el.find('.stand-button').show()
+      $('.winner').text('')
 
 
 
